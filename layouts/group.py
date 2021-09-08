@@ -3,8 +3,10 @@ from dash.dependencies import Output, Input, State
 from plotly.missing_ipywidgets import FigureWidget
 from data.group import *
 from data.size_plot_data import *
+from data.table_data import *
 from plots.categories import *
 from plots.groups import *
+from tables.group import *
 from conversion import *
 import dash_core_components as dcc
 import dash_html_components as html
@@ -12,13 +14,9 @@ import dash_bootstrap_components as dbc
 
 
 
-def get_group_id(group: Group) -> str:
-    return group.name.lower().replace(" ", "-")
-
-
 def generate_group_layout(group: Group) -> html.Div:
     categoriesData: SizePlotData = get_group_categories_sizes_plot_data(group)
-    groupID: str = get_group_id(group)
+    groupID: str = to_layout_id(group.name)
     
     groupElements: list = [
         html.P(f"Total Size: {bytes_to_readable_size(group.totalSize)}")
@@ -30,6 +28,11 @@ def generate_group_layout(group: Group) -> html.Div:
 
         groupElements.append(dcc.Graph(figure=categoriesPie))
         groupElements.append(dcc.Graph(figure=categoriesBars))
+
+    assetsTableData: DataFrame = get_group_assets_table_by_size(group)
+    assetsTable: DataTable = create_group_assets_by_size_table(group.name, assetsTableData)
+
+    groupElements.append(assetsTable)
 
     return html.Div([
         dbc.Button(group.name, id=f"group-{groupID}-collapse-button", n_clicks=0), 
@@ -60,7 +63,7 @@ def generate_groups_layout(groups: list) -> html.Div:
 
 
 def generate_group_callbacks(app: Dash, group: Group):
-    groupID: str = get_group_id(group)
+    groupID: str = to_layout_id(group.name)
     
     @app.callback(
         Output(f"group-{groupID}-collapse", "is_open"), 

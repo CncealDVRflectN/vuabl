@@ -18,6 +18,7 @@ buildLayout: BuildLayout = read_build_layout(buildLayoutPath)
 app: Dash = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 app.layout = html.Div(children=[
+    #create_group_assets_by_size_table(group.name, get_group_assets_table_by_size(group)) for group in buildLayout.groups
     generate_environment_layout(buildLayout.environment), 
     generate_summary_layout(buildLayout), 
     generate_groups_layout(buildLayout.groups)

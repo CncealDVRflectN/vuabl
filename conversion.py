@@ -64,3 +64,8 @@ def bytes_to_readable_size(size: int) -> str:
     power: int = get_size_power(size)
     fractSize: float = size / pow(1024, power)
     return f"{fractSize:.2f}{get_full_size_power_postfix(power)}"
+
+
+
+def to_layout_id(name: str) -> str:
+    return name.lower().replace(" ", "-")
