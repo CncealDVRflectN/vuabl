@@ -1,0 +1,97 @@
+:root {
+  --body-color: #d8d4d0;
+  --body-bg-color: #18191a;
+}
+
+body {
+  color: var(--body-color);
+  background-color: var(--body-bg-color);
+  padding: 0;
+  font-family: monospace;
+}
+
+
+.collapse-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.collapse-item + .collapse-item {
+  margin-top: 5px;
+}
+
+
+.collapse-button {
+  width: 100%;
+  text-align: left;
+  vertical-align: middle;
+  padding: 0.75rem;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #d8d4d0;
+  background-color: #222223;
+  border: 0;
+  transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+}
+
+.collapse-button::after {
+  content: "+";
+  height: fit-content;
+  float: right;
+  transform: scale(1.5);
+  transition: transform 0.2s ease-in-out;
+}
+
+.collapse-button:not(.collapsed)::after {
+  transform: rotate(45deg) scale(1.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collapse-button {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collapse-button::after {
+    transition: none;
+  }
+}
+
+.collapse-button:hover {
+  background-color: #303031;
+}
+
+.collapse-button:focus {
+  background-color: #383633;
+}
+
+
+.collapse-body {
+  padding: 0 0.75rem 0.75rem 0.75rem;
+  outline: 2px solid #222223;
+  outline-offset: -2px;
+}
+
+
+.collapse:not(.show) {
+  display: none;
+}
+
+.collapsing {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collapsing {
+    transition: none;
+  }
+}
+
+
+tr:hover {
+  background-color: inherit !important;
+}

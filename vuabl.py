@@ -4,7 +4,6 @@ from layouts.summary import *
 from layouts.environment import *
 from layouts.group import *
 import dash_html_components as html
-import dash_bootstrap_components as dbc
 import os
 import sys
 
@@ -15,10 +14,9 @@ print(f"Build layout path: {buildLayoutPath}")
 
 buildLayout: BuildLayout = read_build_layout(buildLayoutPath)
 
-app: Dash = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app: Dash = Dash(__name__)
 
 app.layout = html.Div(children=[
-    #create_group_assets_by_size_table(group.name, get_group_assets_table_by_size(group)) for group in buildLayout.groups
     generate_environment_layout(buildLayout.environment), 
     generate_summary_layout(buildLayout), 
     generate_groups_layout(buildLayout.groups)
