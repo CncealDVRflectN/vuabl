@@ -49,7 +49,7 @@ def get_build_categories_sizes_plot_data(layout: BuildLayout) -> SizePlotData:
 
     sizes = [size / plotData.sizeDivider for size in sizes]
 
-    plotData.frame = DataFrame(dict(category=categories, size=sizes, colors=categories))
+    plotData.frame = DataFrame(dict(category=categories, size=sizes))
 
     return plotData
 
@@ -86,7 +86,7 @@ def get_group_categories_sizes_plot_data(group: Group) -> SizePlotData:
 
     sizes = [size / plotData.sizeDivider for size in sizes]
 
-    plotData.frame = DataFrame(dict(category=categories, size=sizes, colors=categories))
+    plotData.frame = DataFrame(dict(category=categories, size=sizes))
 
     return plotData
 
@@ -108,6 +108,6 @@ def get_groups_sizes_plot_data(groups: list) -> SizePlotData:
 
     sizes = [size / plotData.sizeDivider for size in sizes]
 
-    plotData.frame = DataFrame(dict(group=names, size=sizes, colors=names))
+    plotData.frame = DataFrame(dict(group=names, size=sizes))
 
     return plotData
