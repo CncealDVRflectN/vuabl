@@ -8,7 +8,6 @@ from conversion import *
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
-import theming
 
 
 
@@ -25,9 +24,6 @@ def generate_summary_layout(buildLayout: BuildLayout) -> html.Div:
     if not categoriesData.frame.empty:
         categoriesPie: FigureWidget = plot_categories_sizes_pie(categoriesData)
         categoriesBars: FigureWidget = plot_categories_sizes_bars(categoriesData)
-
-        theming.apply_figure_dark_theme(categoriesPie)
-        theming.apply_figure_dark_theme(categoriesBars)
 
         elements.append(dcc.Graph(figure=categoriesPie))
         elements.append(dcc.Graph(figure=categoriesBars))

@@ -11,7 +11,6 @@ from conversion import *
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
-import theming
 
 
 
@@ -26,9 +25,6 @@ def generate_group_layout(group: Group) -> html.Div:
     if not categoriesData.frame.empty:
         categoriesPie: FigureWidget = plot_categories_sizes_pie(categoriesData)
         categoriesBars: FigureWidget = plot_categories_sizes_bars(categoriesData)
-
-        theming.apply_figure_dark_theme(categoriesPie)
-        theming.apply_figure_dark_theme(categoriesBars)
 
         groupElements.append(dcc.Graph(figure=categoriesPie))
         groupElements.append(dcc.Graph(figure=categoriesBars))
@@ -52,9 +48,6 @@ def generate_groups_layout(groups: list) -> html.Div:
     if not groupsData.frame.empty:
         groupsPie: FigureWidget = plot_groups_sizes_pie(groupsData)
         groupsBars: FigureWidget = plot_groups_sizes_bars(groupsData)
-
-        theming.apply_figure_dark_theme(groupsPie)
-        theming.apply_figure_dark_theme(groupsBars)
 
         elements.append(dcc.Graph(figure=groupsPie))
         elements.append(dcc.Graph(figure=groupsBars))

@@ -7,8 +7,8 @@ import theming
 def create_group_assets_by_size_table(groupName, data: DataFrame) -> DataTable:
     groupID: str = to_layout_id(groupName)
 
-    headerStyle: dict = theming.get_data_table_header_dark_theme()
-    cellStyle: dict = theming.get_data_table_cell_dark_theme()
+    headerStyle: dict = theming.get_data_table_header_theme()
+    cellStyle: dict = theming.get_data_table_cell_theme()
 
     return DataTable(
             id=f"group-{groupID}-assets-table", 
