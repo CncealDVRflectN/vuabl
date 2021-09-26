@@ -1,6 +1,6 @@
 from pandas import DataFrame
 from data.group import *
-from conversion import *
+import utils.conversion as conversion
 
 
 
@@ -37,7 +37,7 @@ def get_group_assets_table_by_size(group: Group) -> DataFrame:
 
     paths: list[str] = [asset["path"] for asset in assets]
     types: list[str] = [asset["type"].name for asset in assets]
-    sizes: list[str] = [bytes_to_readable_size(asset["size"]) for asset in assets]
+    sizes: list[str] = [conversion.bytes_to_readable_size(asset["size"]) for asset in assets]
     references: list[str] = [asset["referenced"] for asset in assets]
 
     return DataFrame(dict(path=paths, type=types, size=sizes, references=references))

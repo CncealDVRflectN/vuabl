@@ -1,9 +1,9 @@
 from parsing.file import is_files_header, parse_group_archive_files
-from data.scope import Scope
 from data.group_archive import *
 from parsing.asset_type import *
 from parsing.parameters import *
 from parsing.explicit_asset import *
+from utils.layout_reader import LayoutReader
 import re
 
 
@@ -13,41 +13,35 @@ def is_group_archive_header(line: str) -> bool:
 
 
 
-def parse_group_archive(archiveLines: list) -> GroupArchive:
+def parse_group_archive(reader: LayoutReader) -> GroupArchive:
     archive: GroupArchive = GroupArchive()
+    intent: int = get_intent(reader.currentLine())
 
-    archive.name = re.search(r"^\s*Archive (.+) \(.*", archiveLines[0]).group(1)
-    #print(f"\tParsing '{archive.name}' archive data")
+    archive.name = re.search(r"^\s*Archive (.+) \(.*", reader.currentLine()).group(1)
 
-    archive.size = get_size(archiveLines[0])
-    archive.assetBundleObjectSize = get_asset_bundle_object_size(archiveLines[0])
-    archive.compression = get_compression(archiveLines[0])
+    archive.size = get_size(reader.currentLine())
+    archive.assetBundleObjectSize = get_asset_bundle_object_size(reader.currentLine())
+    archive.compression = get_compression(reader.currentLine())
 
-    scope: Scope = Scope.Archive
-    explicitAssetsLines: list[str] = []
-    filesLines: list[str] = []
+    try:
+        isNext: bool = True
 
-    for line in archiveLines:
-        if scope == Scope.ExplicitAssets:
-            if re.match(r"^\t{3,}", line):
-                explicitAssetsLines.append(line)
-            else:
-                scope = Scope.Archive
-        elif scope == Scope.Files:
-            if re.match(r"^\t{3,}", line):
-                filesLines.append(line)
-            else:
-                scope = Scope.Archive
-        
-        if scope != Scope.ExplicitAssets and is_explicit_assets_header(line):
-            scope = Scope.ExplicitAssets
-            explicitAssetsLines.append(line)
+        while True:
+            line: str = reader.currentLine()
 
-        if scope != Scope.Files and is_files_header(line):
-            scope = Scope.Files
-            filesLines.append(line)
+            if isNext:
+                line = reader.nextLine()
 
-    archive.explicitAssets = parse_archive_explicit_assets(explicitAssetsLines)
-    archive.files = parse_group_archive_files(filesLines)
+            if get_intent(line) <= intent:
+                break
+            elif is_explicit_assets_header(line):
+                archive.explicitAssets = parse_archive_explicit_assets(reader)
+                isNext = False
+            elif is_files_header(line):
+                archive.files = parse_group_archive_files(reader)
+                isNext = False
+
+    except StopIteration:
+        pass
 
     return archive

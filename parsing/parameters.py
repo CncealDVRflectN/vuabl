@@ -1,8 +1,8 @@
 from parsing.asset_type import get_asset_type
 from data.asset import *
 from data.asset_type import *
-from re import Match, match
-import conversion
+from re import Match
+import utils.conversion as conversion
 import re
 
 
@@ -124,3 +124,8 @@ def get_compression(header: str) -> str:
 
 def get_addressable_name(header: str) -> str:
     return get_header_string_param(header, "Addressable Name")
+
+
+
+def get_intent(line: str) -> int:
+    return len(re.search(r"^(\s*)", line).group(1))

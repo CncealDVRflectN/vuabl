@@ -7,19 +7,19 @@ from data.table_data import *
 from plots.categories import *
 from plots.groups import *
 from tables.group import *
-from conversion import *
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
+import utils.conversion as conversion
 
 
 
 def generate_group_layout(group: Group) -> html.Div:
     categoriesData: SizePlotData = get_group_categories_sizes_plot_data(group)
-    groupID: str = to_layout_id(group.name)
+    groupID: str = conversion.to_layout_id(group.name)
     
     groupElements: list = [
-        html.P(f"Total Size: {bytes_to_readable_size(group.totalSize)}")
+        html.P(f"Total Size: {conversion.bytes_to_readable_size(group.totalSize)}")
     ]
 
     if not categoriesData.frame.empty:
@@ -63,7 +63,7 @@ def generate_groups_layout(groups: list) -> html.Div:
 
 
 def generate_group_callbacks(app: Dash, group: Group):
-    groupID: str = to_layout_id(group.name)
+    groupID: str = conversion.to_layout_id(group.name)
     
     @app.callback(
         Output(f"group-{groupID}-collapse", "is_open"), 

@@ -4,10 +4,10 @@ from plotly.missing_ipywidgets import FigureWidget
 from data.build_layout import *
 from data.size_plot_data import *
 from plots.categories import *
-from conversion import *
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
+import utils.conversion as conversion
 
 
 
@@ -16,9 +16,9 @@ def generate_summary_layout(buildLayout: BuildLayout) -> html.Div:
     
     elements: list = [
         html.P(f"Groups Count: {buildLayout.summary.groupsCount}"), 
-        html.P(f"Total Build Size: {bytes_to_readable_size(buildLayout.summary.totalBuildSize)}"), 
-        html.P(f"Total MonoScript Size: {bytes_to_readable_size(buildLayout.summary.totalMonoScriptSize)}"), 
-        html.P(f"Total AssetBundle Object Size: {bytes_to_readable_size(buildLayout.summary.totalAssetBundleObjectSize)}")
+        html.P(f"Total Build Size: {conversion.bytes_to_readable_size(buildLayout.summary.totalBuildSize)}"), 
+        html.P(f"Total MonoScript Size: {conversion.bytes_to_readable_size(buildLayout.summary.totalMonoScriptSize)}"), 
+        html.P(f"Total AssetBundle Object Size: {conversion.bytes_to_readable_size(buildLayout.summary.totalAssetBundleObjectSize)}")
     ]
 
     if not categoriesData.frame.empty:

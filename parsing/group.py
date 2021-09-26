@@ -1,48 +1,41 @@
-from data.scope import Scope
 from data.group import *
 from parsing.parameters import *
 from parsing.group_archive import *
+from utils.layout_reader import LayoutReader
 import re
 
 
 
 def is_group_header(line: str) -> bool:
-    return re.match(r"^Group .+", line)
+    return re.match(r"^\s*Group .+", line)
 
 
 
-def parse_group(groupLines: list) -> Group:
+def parse_group(reader: LayoutReader) -> Group:
     group: Group = Group()
+    intent: int = get_intent(reader.currentLine())
     
-    group.name = re.search(r"^Group (.+) \(.*", groupLines[0]).group(1)
+    group.name = re.search(r"^\s*Group (.+) \(.*", reader.currentLine()).group(1)
+    group.bundlesCount = get_bundles_count(reader.currentLine())
+    group.explicitAssetCount = get_explicit_asset_count(reader.currentLine())
+    group.totalSize = get_total_size(reader.currentLine())
 
-    if group.name == "Built In Data":
-        #print(f"Skipping '{group.name}' group data")
-        return group
+    try:
+        isNext: bool = True
 
-    #print(f"Parsing '{group.name}' group data")
+        while True:
+            line: str = reader.currentLine()
 
-    group.bundlesCount = get_bundles_count(groupLines[0])
-    group.explicitAssetCount = get_explicit_asset_count(groupLines[0])
-    group.totalSize = get_total_size(groupLines[0])
+            if isNext:
+                line = reader.nextLine()
 
-    archiveLines: list[str] = []
-    scope: Scope = Scope.Group
+            if get_intent(line) <= intent:
+                break
+            elif is_group_archive_header(line):
+                group.archives.append(parse_group_archive(reader))
+                isNext = False
 
-    for line in groupLines:
-        if scope == Scope.Archive:
-            if re.match(r"\t{2,}", line):
-                archiveLines.append(line)
-            else:
-                group.archives.append(parse_group_archive(archiveLines))
-                scope = Scope.Group
-                archiveLines.clear()
-        
-        if scope != Scope.Archive and is_group_archive_header(line):
-            scope = Scope.Archive
-            archiveLines.append(line)
-
-    if scope == Scope.Archive:
-        group.archives.append(parse_group_archive(archiveLines))
+    except StopIteration:
+        pass
 
     return group

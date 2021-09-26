@@ -2,6 +2,7 @@ from data.file import *
 from data.scope import *
 from parsing.parameters import *
 from parsing.data_from_other_asset import *
+from utils.layout_reader import LayoutReader
 import re
 
 
@@ -15,53 +16,56 @@ def is_file_header(line: str) -> bool:
 
 
 
-def parse_group_archive_file(lines: list) -> File:
+def parse_group_archive_file(reader: LayoutReader) -> File:
     file: File = File()
+    intent: int = get_intent(reader.currentLine())
 
-    file.index = int(re.search(r"^\s*File (\d+) \(", lines[0]).group(1))
-    file.preloadInfoSize = get_header_size_param(lines[0], "PreloadInfoSize")
-    file.monoScriptsCount = get_header_integer_param(lines[0], "MonoScripts")
-    file.monoScroptSize = get_header_size_param(lines[0], "MonoScript Size")
+    file.index = int(re.search(r"^\s*File (\d+) \(", reader.currentLine()).group(1))
+    file.preloadInfoSize = get_header_size_param(reader.currentLine(), "PreloadInfoSize")
+    file.monoScriptsCount = get_header_integer_param(reader.currentLine(), "MonoScripts")
+    file.monoScroptSize = get_header_size_param(reader.currentLine(), "MonoScript Size")
 
-    scope: Scope = Scope.File
-    dataFromOtherAssetsLines: list[str] = []
+    try:
+        isNext: bool = True
 
-    for line in lines:
-        if scope == Scope.DataFromOtherAssets:
-            if re.match(r"\t{5,}.+", line):
-                dataFromOtherAssetsLines.append(line)
-            else:
-                scope = Scope.File
+        while True:
+            line: str = reader.currentLine()
 
-        if scope != Scope.DataFromOtherAssets and is_data_from_other_assets_header(line):
-            dataFromOtherAssetsLines.append(line)
-            scope = Scope.DataFromOtherAssets
+            if isNext:
+                line = reader.nextLine()
 
-    file.dataFromOtherAssets = parse_file_data_from_other_assets(dataFromOtherAssetsLines)
+            if get_intent(line) <= intent:
+                break
+            elif is_data_from_other_assets_header(line):
+                file.dataFromOtherAssets = parse_file_data_from_other_assets(reader)
+                isNext = False
+
+    except StopIteration:
+        pass
 
     return file
 
 
-def parse_group_archive_files(lines: list) -> list:
+def parse_group_archive_files(reader: LayoutReader) -> list:
     files: list[File] = []
+    intent: int = get_intent(reader.currentLine())
 
-    scope: Scope = Scope.Files
-    fileLines: list[str] = []
+    try:
+        isNext: bool = True
 
-    for line in lines:
-        if scope == Scope.File:
-            if re.match(r"\t{4,}.+", line):
-                fileLines.append(line)
-            else:
-                files.append(parse_group_archive_file(fileLines))
-                fileLines.clear()
-                scope = Scope.Files
+        while True:
+            line: str = reader.currentLine()
 
-        if scope != Scope.File and is_file_header(line):
-            fileLines.append(line)
-            scope = Scope.File
+            if isNext:
+                line = reader.nextLine()
 
-    if fileLines:
-        files.append(parse_group_archive_file(fileLines))
+            if get_intent(line) <= intent:
+                break
+            elif is_file_header(line):
+                files.append(parse_group_archive_file(reader))
+                isNext = False
+
+    except StopIteration:
+        pass
 
     return files

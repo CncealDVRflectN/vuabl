@@ -1,11 +1,11 @@
 from dash_table import DataTable
 from pandas import DataFrame
-from conversion import *
-import theming
+import utils.conversion as conversion
+import utils.theming as theming
 
 
 def create_group_assets_by_size_table(groupName, data: DataFrame) -> DataTable:
-    groupID: str = to_layout_id(groupName)
+    groupID: str = conversion.to_layout_id(groupName)
 
     headerStyle: dict = theming.get_data_table_header_theme()
     cellStyle: dict = theming.get_data_table_cell_theme()

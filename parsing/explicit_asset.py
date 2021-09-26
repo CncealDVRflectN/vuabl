@@ -1,7 +1,7 @@
-from data.scope import Scope
 from data.explicit_asset import *
 from parsing.parameters import *
 from parsing.asset_type import *
+from utils.layout_reader import LayoutReader
 import re
 
 
@@ -11,45 +11,54 @@ def is_explicit_assets_header(line: str) -> bool:
 
 
 
-def parse_archive_explicit_asset(lines: list) -> ExplicitAsset:
+def parse_archive_explicit_asset(reader: LayoutReader) -> ExplicitAsset:
     asset: ExplicitAsset = ExplicitAsset()
+    intent: int = get_intent(reader.currentLine())
 
-    asset.path = re.search(r"^\s*([^(]+)\(", lines[0]).group(1).rstrip()
+    asset.path = re.search(r"^\s*([^(]+)\(", reader.currentLine()).group(1).rstrip()
     asset.assetType = get_asset_type(asset.path)
-    asset.totalSize = get_total_size(lines[0])
-    asset.sizeFromObjects = get_size_from_objects(lines[0])
-    asset.sizeFromStreamedData = get_size_from_streamed_data(lines[0])
-    asset.fileIndex = get_file_index(lines[0])
-    asset.addressableName = get_addressable_name(lines[0])
+    asset.totalSize = get_total_size(reader.currentLine())
+    asset.sizeFromObjects = get_size_from_objects(reader.currentLine())
+    asset.sizeFromStreamedData = get_size_from_streamed_data(reader.currentLine())
+    asset.fileIndex = get_file_index(reader.currentLine())
+    asset.addressableName = get_addressable_name(reader.currentLine())
 
-    for line in lines:
-        if is_param(line, "Internal References"):
-            asset.internalReferences = get_assets_list_param(line, "Internal References")
+    try:
+        while True: 
+            line: str = reader.nextLine()
+
+            if get_intent(line) <= intent: 
+                break
+            if is_param(line, "Internal References"):
+                asset.internalReferences = get_assets_list_param(line, "Internal References")
+
+    except StopIteration:
+        pass
 
     return asset
 
 
 
-def parse_archive_explicit_assets(lines: str) -> list:
+def parse_archive_explicit_assets(reader: LayoutReader) -> list:
     assets: list[ExplicitAsset] = []
+    intent: int = get_intent(reader.currentLine())
 
-    scope: Scope = Scope.ExplicitAssets
-    explicitAssetLines: list[str] = []
+    try:
+        isNext: bool = True
 
-    for line in lines:
-        if scope == Scope.ExplicitAsset:
-            if re.match(r"^\t{4,}.+", line):
-                explicitAssetLines.append(line)
+        while True:
+            line: str = reader.currentLine()
+
+            if isNext:
+                line = reader.nextLine()
+
+            if get_intent(line) <= intent:
+                break
             else:
-                assets.append(parse_archive_explicit_asset(explicitAssetLines))
-                explicitAssetLines.clear()
-                scope = Scope.ExplicitAssets
+                assets.append(parse_archive_explicit_asset(reader))
+                isNext = False
 
-        if scope != Scope.ExplicitAsset and re.match(r"^\t{3,}.+", line):
-            explicitAssetLines.append(line)
-            scope = Scope.ExplicitAsset
-
-    if explicitAssetLines:
-        assets.append(parse_archive_explicit_asset(explicitAssetLines))
+    except StopIteration:
+        pass
 
     return assets

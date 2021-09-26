@@ -2,6 +2,7 @@ from data.data_from_other_asset import *
 from data.scope import *
 from parsing.parameters import *
 from parsing.asset_type import *
+from utils.layout_reader import LayoutReader
 import re
 
 
@@ -11,43 +12,54 @@ def is_data_from_other_assets_header(line: str) -> bool:
 
 
 
-def parse_file_data_from_other_asset(lines: list) -> DataFromOtherAsset:
+def parse_file_data_from_other_asset(reader: LayoutReader) -> DataFromOtherAsset:
     data: DataFromOtherAsset = DataFromOtherAsset()
+    intent: int = get_intent(reader.currentLine())
 
-    data.path = re.search(r"^\s*([^(]+)\(", lines[0]).group(1).rstrip()
+    data.path = re.search(r"^\s*([^(]+)\(", reader.currentLine()).group(1).rstrip()
     data.assetType = get_asset_type(data.path)
-    data.size = get_size(lines[0])
-    data.sizeFromObjects = get_size_from_objects(lines[0])
-    data.sizeFromStreamedData = get_size_from_streamed_data(lines[0])
-    data.objectCount = get_header_integer_param(lines[0], "Object Count")
+    data.size = get_size(reader.currentLine())
+    data.sizeFromObjects = get_size_from_objects(reader.currentLine())
+    data.sizeFromStreamedData = get_size_from_streamed_data(reader.currentLine())
+    data.objectCount = get_header_integer_param(reader.currentLine(), "Object Count")
 
-    for line in lines:
-        if is_param(line, "Referencing Assets"):
-            data.referencingAssets = get_assets_list_param(line, "Referencing Assets")
+    try:
+        while True:
+            line: str = reader.nextLine()
+
+            if get_intent(line) <= intent:
+                break
+            elif is_param(line, "Referencing Assets"):
+                data.referencingAssets = get_assets_list_param(line, "Referencing Assets")
+
+    except StopIteration:
+        pass
 
     return data
 
 
-def parse_file_data_from_other_assets(lines: list) -> list:
+def parse_file_data_from_other_assets(reader: LayoutReader) -> list:
     data: list[DataFromOtherAsset] = []
+    intent: int = get_intent(reader.currentLine())
 
-    scope: Scope = Scope.DataFromOtherAssets
-    dataFromOtherAssetLines: list[str] = []
+    try: 
+        isNext: bool = True
 
-    for line in lines:
-        if scope == Scope.DataFromOtherAsset:
-            if re.match(r"^\t{6,}.+", line):
-                dataFromOtherAssetLines.append(line)
-            else:
-                data.append(parse_file_data_from_other_asset(dataFromOtherAssetLines))
-                dataFromOtherAssetLines.clear()
-                scope = Scope.DataFromOtherAssets
+        while True:
+            line: str = reader.currentLine()
 
-        if scope != Scope.DataFromOtherAsset and re.match(r"^\t{5,}.+", line):
-            dataFromOtherAssetLines.append(line)
-            scope = Scope.DataFromOtherAsset
+            if isNext:
+                line = reader.nextLine()
 
-    if dataFromOtherAssetLines:
-        data.append(parse_file_data_from_other_asset(dataFromOtherAssetLines))
+            curIntent = get_intent(line)
+
+            if curIntent <= intent:
+                break
+            elif curIntent == intent + 1:
+                data.append(parse_file_data_from_other_asset(reader))
+                isNext = False
+
+    except StopIteration:
+        pass
 
     return data

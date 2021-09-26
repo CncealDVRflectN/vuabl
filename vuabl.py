@@ -10,8 +10,6 @@ import sys
 
 
 buildLayoutPath: str = os.path.abspath(sys.argv[1])
-print(f"Build layout path: {buildLayoutPath}")
-
 buildLayout: BuildLayout = read_build_layout(buildLayoutPath)
 
 app: Dash = Dash(__name__)
