@@ -1,11 +1,9 @@
-from dash.dash import Dash
+from dash import Dash, Output, Input, State, dcc, html
 from dash.dependencies import Output, Input, State
 from plotly.missing_ipywidgets import FigureWidget
 from data.build_layout import *
 from data.size_plot_data import *
 from plots.categories import *
-import dash_core_components as dcc
-import dash_html_components as html
 import dash_bootstrap_components as dbc
 import utils.conversion as conversion
 

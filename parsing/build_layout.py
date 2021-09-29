@@ -3,7 +3,6 @@ from parsing.parameters import *
 from parsing.summary import *
 from parsing.group import *
 from utils.layout_reader import LayoutReader
-import re
 
 
 

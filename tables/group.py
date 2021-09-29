@@ -1,4 +1,4 @@
-from dash_table import DataTable
+from dash.dash_table import DataTable
 from pandas import DataFrame
 import utils.conversion as conversion
 import utils.theming as theming

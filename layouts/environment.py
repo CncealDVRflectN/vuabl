@@ -1,6 +1,5 @@
-from dash_html_components.H2 import H2
+from dash import html
 from data.environment import *
-import dash_html_components as html
 
 
 

@@ -1,9 +1,8 @@
-from dash import Dash
+from dash import Dash, html
 from parsing.build_layout import *
 from layouts.summary import *
 from layouts.environment import *
 from layouts.group import *
-import dash_html_components as html
 import os
 import sys
 
