@@ -1,5 +1,6 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Output, Input, State
+from networkx.classes.graph import Graph
 from plotly.missing_ipywidgets import FigureWidget
 from data.group import *
 from data.size_plot_data import *
@@ -9,6 +10,8 @@ from plots.groups import *
 from tables.group import *
 import dash_bootstrap_components as dbc
 import utils.conversion as conversion
+import graphs.groups as gg
+import data.dependencies as ddep
 
 
 
@@ -44,11 +47,15 @@ def generate_groups_layout(groups: list) -> html.Div:
     elements: list = []
 
     if not groupsData.frame.empty:
+        dependencies: Graph = ddep.get_dependencies_graph_data(groups)
+
         groupsPie: FigureWidget = plot_groups_sizes_pie(groupsData)
         groupsBars: FigureWidget = plot_groups_sizes_bars(groupsData)
+        dependenciesGraph: FigureWidget = gg.build_dependencies_graph(dependencies)
 
         elements.append(dcc.Graph(figure=groupsPie))
         elements.append(dcc.Graph(figure=groupsBars))
+        elements.append(dcc.Graph(figure=dependenciesGraph))
 
     for group in groups:
         elements.append(generate_group_layout(group))
