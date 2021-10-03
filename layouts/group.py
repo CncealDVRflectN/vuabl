@@ -12,7 +12,7 @@ import utils.conversion as conversion
 
 
 
-def generate_group_layout(group: Group) -> html.Div:
+def generate_group_layout(group: Group, assetsData: dict) -> html.Div:
     categoriesData: SizePlotData = get_group_categories_sizes_plot_data(group)
     groupID: str = conversion.to_layout_id(group.name)
     
@@ -27,7 +27,7 @@ def generate_group_layout(group: Group) -> html.Div:
         groupElements.append(dcc.Graph(figure=categoriesPie))
         groupElements.append(dcc.Graph(figure=categoriesBars))
 
-    assetsTableData: DataFrame = get_group_assets_table_by_size(group)
+    assetsTableData: DataFrame = get_group_assets_table_by_size(group, assetsData)
     assetsTable: DataTable = create_group_assets_by_size_table(group.name, assetsTableData)
 
     groupElements.append(assetsTable)
@@ -38,7 +38,7 @@ def generate_group_layout(group: Group) -> html.Div:
     ], className="collapse-item")
 
 
-def generate_groups_layout(groups: list) -> html.Div:
+def generate_groups_layout(groups: list, assetsData: dict) -> html.Div:
     groupsData: SizePlotData = get_groups_sizes_plot_data(groups)
     
     elements: list = []
@@ -51,7 +51,7 @@ def generate_groups_layout(groups: list) -> html.Div:
         elements.append(dcc.Graph(figure=groupsBars))
 
     for group in groups:
-        elements.append(generate_group_layout(group))
+        elements.append(generate_group_layout(group, assetsData))
 
     return html.Div([
         dbc.Button("Groups", className="collapse-button", id="groups-collapse-button", n_clicks=0), 

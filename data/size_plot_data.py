@@ -2,9 +2,9 @@ from typing import Tuple
 from data.group import Group
 from dataclasses import dataclass
 from pandas import DataFrame
-from data.asset_type import *
-from data.build_layout import *
-from parsing.asset_type import *
+from data.asset_type import AssetType
+from data.build_layout import BuildLayout
+import parsing.asset_type as passet_type
 import utils.conversion as conversion
 
 
@@ -39,7 +39,7 @@ def get_build_categories_sizes_plot_data(layout: BuildLayout) -> SizePlotData:
         return SizePlotData()
 
     categoriesSizes: list = sorted(sizesLookup.items(), key=lambda entry:entry[1], reverse=True)
-    categories: list[str] = [asset_type_to_category_name(categorySize[0]) for categorySize in categoriesSizes]
+    categories: list[str] = [passet_type.asset_type_to_category_name(categorySize[0]) for categorySize in categoriesSizes]
     sizes: list[int] = [categorySize[1] for categorySize in categoriesSizes]
     maxSizePower: int = conversion.get_size_power(sizes[0])
 
@@ -76,7 +76,7 @@ def get_group_categories_sizes_plot_data(group: Group) -> SizePlotData:
         return SizePlotData()
 
     categoriesSizes: list = sorted(sizesLookup.items(), key=lambda entry:entry[1], reverse=True)
-    categories: list[str] = [asset_type_to_category_name(categorySize[0]) for categorySize in categoriesSizes]
+    categories: list[str] = [passet_type.asset_type_to_category_name(categorySize[0]) for categorySize in categoriesSizes]
     sizes: list[int] = [categorySize[1] for categorySize in categoriesSizes]
     maxSizePower: int = conversion.get_size_power(sizes[0])
 

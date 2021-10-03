@@ -16,7 +16,7 @@ app: Dash = Dash(__name__)
 app.layout = html.Div(children=[
     generate_environment_layout(buildLayout.environment), 
     generate_summary_layout(buildLayout), 
-    generate_groups_layout(buildLayout.groups)
+    generate_groups_layout(buildLayout.groups, buildLayout.assetsData)
 ])
 
 generate_summary_callbacks(app)

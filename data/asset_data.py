@@ -6,4 +6,6 @@ from data.asset import Asset
 class AssetData:
     asset: Asset = Asset()
     size: int = 0
-    referencedBy: set = field(default_factory=set)
+    referencedByAssets: set = field(default_factory=set)
+    referencedByGroups: set = field(default_factory=set)
+    referencedByArchives: set = field(default_factory=set)

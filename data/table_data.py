@@ -4,27 +4,8 @@ from data.asset_data import AssetData
 import utils.conversion as conversion
 
 
-def get_group_assets_table_by_size(group: Group) -> DataFrame:
-    assets: dict[str, AssetData] = {}
-
-    for archive in group.archives:
-        for explicitAsset in archive.explicitAssets:
-            assets[explicitAsset.path] = AssetData(explicitAsset, explicitAsset.totalSize)
-
-        for file in archive.files:
-            for dataFromOtherAsset in file.dataFromOtherAssets:
-                data: AssetData
-
-                if dataFromOtherAsset.path in assets:
-                    data = assets[dataFromOtherAsset.path]
-                else:
-                    data = AssetData(dataFromOtherAsset, dataFromOtherAsset.size)
-                    assets[dataFromOtherAsset.path] = data
-
-                for referencingAsset in dataFromOtherAsset.referencingAssets:
-                    data.referencedBy.add(referencingAsset)
-
-    assetsData: list[AssetData] = list(assets.values())
+def get_group_assets_table_by_size(group: Group, assetsData: dict) -> DataFrame:
+    assetsData: list[AssetData] = list(assetsData.values())
 
     assetsData.sort(key=lambda entry:entry.size, reverse=True)
 
@@ -35,7 +16,7 @@ def get_group_assets_table_by_size(group: Group) -> DataFrame:
     references: list[str] = []
 
     for assetData in assetsData:
-        referencedBy: list[str] = [referenceAsset.path for referenceAsset in assetData.referencedBy]
+        referencedBy: list[str] = [referenceAsset.path for referenceAsset in assetData.referencedByAssets]
         referencedBy.sort()
 
         referencesStr: str = ""

@@ -17,7 +17,7 @@ def create_group_assets_by_size_table(groupName, data: DataFrame) -> DataTable:
                 {"id": "path", "name": "Path"},  
                 {"id": "type", "name": "Type"}, 
                 {"id": "size", "name": "Size"}, 
-                {"id": "references", "name": "Referenced By"}
+                {"id": "references", "name": "Referenced By Assets"}
             ], 
             page_size=25, 
             style_table={ "overflowX": "auto" }, 
