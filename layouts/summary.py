@@ -1,16 +1,17 @@
 from dash import Dash, Output, Input, State, dcc, html
 from dash.dependencies import Output, Input, State
 from plotly.missing_ipywidgets import FigureWidget
-from data.build_layout import *
-from data.size_plot_data import *
-from plots.categories import *
+from data.build_layout import BuildLayout
+from data.size_plot_data import SizePlotData
 import dash_bootstrap_components as dbc
+import data.size_plot_data as dtspd
+import plots.categories as pltcat
 import utils.conversion as conversion
 
 
 
 def generate_summary_layout(buildLayout: BuildLayout) -> html.Div:
-    categoriesData: SizePlotData = get_build_categories_sizes_plot_data(buildLayout)
+    categoriesData: SizePlotData = dtspd.get_build_categories_sizes_plot_data(buildLayout)
     
     elements: list = [
         html.P(f"Groups Count: {buildLayout.summary.groupsCount}"), 
@@ -20,8 +21,8 @@ def generate_summary_layout(buildLayout: BuildLayout) -> html.Div:
     ]
 
     if not categoriesData.frame.empty:
-        categoriesPie: FigureWidget = plot_categories_sizes_pie(categoriesData)
-        categoriesBars: FigureWidget = plot_categories_sizes_bars(categoriesData)
+        categoriesPie: FigureWidget = pltcat.plot_categories_sizes_pie(categoriesData)
+        categoriesBars: FigureWidget = pltcat.plot_categories_sizes_bars(categoriesData)
 
         elements.append(dcc.Graph(figure=categoriesPie))
         elements.append(dcc.Graph(figure=categoriesBars))

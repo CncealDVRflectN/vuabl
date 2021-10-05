@@ -1,7 +1,7 @@
-from data.group import *
-from parsing.parameters import *
-from parsing.group_archive import *
+from data.group import Group
 from utils.layout_reader import LayoutReader
+import parsing.parameters as pparams
+import parsing.group_archive as pgrarch
 import re
 
 
@@ -13,12 +13,12 @@ def is_group_header(line: str) -> bool:
 
 def parse_group(reader: LayoutReader) -> Group:
     group: Group = Group()
-    intent: int = get_intent(reader.currentLine())
+    intent: int = pparams.get_intent(reader.currentLine())
     
     group.name = re.search(r"^\s*Group (.+) \(.*", reader.currentLine()).group(1)
-    group.bundlesCount = get_bundles_count(reader.currentLine())
-    group.explicitAssetCount = get_explicit_asset_count(reader.currentLine())
-    group.totalSize = get_total_size(reader.currentLine())
+    group.bundlesCount = pparams.get_bundles_count(reader.currentLine())
+    group.explicitAssetCount = pparams.get_explicit_asset_count(reader.currentLine())
+    group.totalSize = pparams.get_total_size(reader.currentLine())
 
     try:
         isNext: bool = True
@@ -29,10 +29,10 @@ def parse_group(reader: LayoutReader) -> Group:
             if isNext:
                 line = reader.nextLine()
 
-            if get_intent(line) <= intent:
+            if pparams.get_intent(line) <= intent:
                 break
-            elif is_group_archive_header(line):
-                group.archives.append(parse_group_archive(reader))
+            elif pgrarch.is_group_archive_header(line):
+                group.archives.append(pgrarch.parse_group_archive(reader))
                 isNext = False
 
     except StopIteration:

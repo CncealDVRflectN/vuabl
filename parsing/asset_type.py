@@ -1,4 +1,4 @@
-from data.asset_type import *
+from data.asset_type import AssetType
 import re
 
 

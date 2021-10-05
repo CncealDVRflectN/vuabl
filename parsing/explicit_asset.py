@@ -1,7 +1,7 @@
-from data.explicit_asset import *
-from parsing.parameters import *
-from parsing.asset_type import *
+from data.explicit_asset import ExplicitAsset
 from utils.layout_reader import LayoutReader
+import parsing.parameters as pparams
+import parsing.asset_type as pasttp
 import re
 
 
@@ -13,24 +13,24 @@ def is_explicit_assets_header(line: str) -> bool:
 
 def parse_archive_explicit_asset(reader: LayoutReader) -> ExplicitAsset:
     asset: ExplicitAsset = ExplicitAsset()
-    intent: int = get_intent(reader.currentLine())
+    intent: int = pparams.get_intent(reader.currentLine())
 
     asset.path = re.search(r"^\s*([^(]+)\(", reader.currentLine()).group(1).rstrip()
-    asset.assetType = get_asset_type(asset.path)
-    asset.totalSize = get_total_size(reader.currentLine())
-    asset.sizeFromObjects = get_size_from_objects(reader.currentLine())
-    asset.sizeFromStreamedData = get_size_from_streamed_data(reader.currentLine())
-    asset.fileIndex = get_file_index(reader.currentLine())
-    asset.addressableName = get_addressable_name(reader.currentLine())
+    asset.assetType = pasttp.get_asset_type(asset.path)
+    asset.totalSize = pparams.get_total_size(reader.currentLine())
+    asset.sizeFromObjects = pparams.get_size_from_objects(reader.currentLine())
+    asset.sizeFromStreamedData = pparams.get_size_from_streamed_data(reader.currentLine())
+    asset.fileIndex = pparams.get_file_index(reader.currentLine())
+    asset.addressableName = pparams.get_addressable_name(reader.currentLine())
 
     try:
         while True: 
             line: str = reader.nextLine()
 
-            if get_intent(line) <= intent: 
+            if pparams.get_intent(line) <= intent: 
                 break
-            if is_param(line, "Internal References"):
-                asset.internalReferences = get_assets_list_param(line, "Internal References")
+            if pparams.is_param(line, "Internal References"):
+                asset.internalReferences = pparams.get_assets_list_param(line, "Internal References")
 
     except StopIteration:
         pass
@@ -41,7 +41,7 @@ def parse_archive_explicit_asset(reader: LayoutReader) -> ExplicitAsset:
 
 def parse_archive_explicit_assets(reader: LayoutReader) -> list:
     assets: list[ExplicitAsset] = []
-    intent: int = get_intent(reader.currentLine())
+    intent: int = pparams.get_intent(reader.currentLine())
 
     try:
         isNext: bool = True
@@ -52,7 +52,7 @@ def parse_archive_explicit_assets(reader: LayoutReader) -> list:
             if isNext:
                 line = reader.nextLine()
 
-            if get_intent(line) <= intent:
+            if pparams.get_intent(line) <= intent:
                 break
             else:
                 assets.append(parse_archive_explicit_asset(reader))

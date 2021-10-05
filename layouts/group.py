@@ -1,19 +1,22 @@
 from dash import Dash, dcc, html
+from dash.dash_table import DataTable
 from dash.dependencies import Output, Input, State
+from pandas import DataFrame
 from plotly.missing_ipywidgets import FigureWidget
-from data.group import *
-from data.size_plot_data import *
-from data.table_data import *
-from plots.categories import *
-from plots.groups import *
-from tables.group import *
+from data.group import Group
+from data.size_plot_data import SizePlotData
 import dash_bootstrap_components as dbc
+import data.size_plot_data as dtspd
+import data.table_data as dttbl
+import plots.categories as pltcat
+import plots.groups as pltgr
+import tables.group as tblgr
 import utils.conversion as conversion
 
 
 
 def generate_group_layout(group: Group, assetsData: dict) -> html.Div:
-    categoriesData: SizePlotData = get_group_categories_sizes_plot_data(group)
+    categoriesData: SizePlotData = dtspd.get_group_categories_sizes_plot_data(group)
     groupID: str = conversion.to_layout_id(group.name)
     
     groupElements: list = [
@@ -21,14 +24,14 @@ def generate_group_layout(group: Group, assetsData: dict) -> html.Div:
     ]
 
     if not categoriesData.frame.empty:
-        categoriesPie: FigureWidget = plot_categories_sizes_pie(categoriesData)
-        categoriesBars: FigureWidget = plot_categories_sizes_bars(categoriesData)
+        categoriesPie: FigureWidget = pltcat.plot_categories_sizes_pie(categoriesData)
+        categoriesBars: FigureWidget = pltcat.plot_categories_sizes_bars(categoriesData)
 
         groupElements.append(dcc.Graph(figure=categoriesPie))
         groupElements.append(dcc.Graph(figure=categoriesBars))
 
-    assetsTableData: DataFrame = get_group_assets_table_by_size(group, assetsData)
-    assetsTable: DataTable = create_group_assets_by_size_table(group.name, assetsTableData)
+    assetsTableData: DataFrame = dttbl.get_group_assets_table_by_size(group, assetsData)
+    assetsTable: DataTable = tblgr.create_group_assets_by_size_table(group.name, assetsTableData)
 
     groupElements.append(assetsTable)
 
@@ -39,13 +42,13 @@ def generate_group_layout(group: Group, assetsData: dict) -> html.Div:
 
 
 def generate_groups_layout(groups: list, assetsData: dict) -> html.Div:
-    groupsData: SizePlotData = get_groups_sizes_plot_data(groups)
+    groupsData: SizePlotData = dtspd.get_groups_sizes_plot_data(groups)
     
     elements: list = []
 
     if not groupsData.frame.empty:
-        groupsPie: FigureWidget = plot_groups_sizes_pie(groupsData)
-        groupsBars: FigureWidget = plot_groups_sizes_bars(groupsData)
+        groupsPie: FigureWidget = pltgr.plot_groups_sizes_pie(groupsData)
+        groupsBars: FigureWidget = pltgr.plot_groups_sizes_bars(groupsData)
 
         elements.append(dcc.Graph(figure=groupsPie))
         elements.append(dcc.Graph(figure=groupsBars))

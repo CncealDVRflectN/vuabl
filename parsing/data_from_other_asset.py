@@ -1,8 +1,7 @@
-from data.data_from_other_asset import *
-from data.scope import *
-from parsing.parameters import *
-from parsing.asset_type import *
+from data.data_from_other_asset import DataFromOtherAsset
 from utils.layout_reader import LayoutReader
+import parsing.parameters as pparamrs
+import parsing.asset_type as pasttp
 import re
 
 
@@ -14,23 +13,23 @@ def is_data_from_other_assets_header(line: str) -> bool:
 
 def parse_file_data_from_other_asset(reader: LayoutReader) -> DataFromOtherAsset:
     data: DataFromOtherAsset = DataFromOtherAsset()
-    intent: int = get_intent(reader.currentLine())
+    intent: int = pparamrs.get_intent(reader.currentLine())
 
     data.path = re.search(r"^\s*([^(]+)\(", reader.currentLine()).group(1).rstrip()
-    data.assetType = get_asset_type(data.path)
-    data.size = get_size(reader.currentLine())
-    data.sizeFromObjects = get_size_from_objects(reader.currentLine())
-    data.sizeFromStreamedData = get_size_from_streamed_data(reader.currentLine())
-    data.objectCount = get_header_integer_param(reader.currentLine(), "Object Count")
+    data.assetType = pasttp.get_asset_type(data.path)
+    data.size = pparamrs.get_size(reader.currentLine())
+    data.sizeFromObjects = pparamrs.get_size_from_objects(reader.currentLine())
+    data.sizeFromStreamedData = pparamrs.get_size_from_streamed_data(reader.currentLine())
+    data.objectCount = pparamrs.get_header_integer_param(reader.currentLine(), "Object Count")
 
     try:
         while True:
             line: str = reader.nextLine()
 
-            if get_intent(line) <= intent:
+            if pparamrs.get_intent(line) <= intent:
                 break
-            elif is_param(line, "Referencing Assets"):
-                data.referencingAssets = get_assets_list_param(line, "Referencing Assets")
+            elif pparamrs.is_param(line, "Referencing Assets"):
+                data.referencingAssets = pparamrs.get_assets_list_param(line, "Referencing Assets")
 
     except StopIteration:
         pass
@@ -40,7 +39,7 @@ def parse_file_data_from_other_asset(reader: LayoutReader) -> DataFromOtherAsset
 
 def parse_file_data_from_other_assets(reader: LayoutReader) -> list:
     data: list[DataFromOtherAsset] = []
-    intent: int = get_intent(reader.currentLine())
+    intent: int = pparamrs.get_intent(reader.currentLine())
 
     try: 
         isNext: bool = True
@@ -51,7 +50,7 @@ def parse_file_data_from_other_assets(reader: LayoutReader) -> list:
             if isNext:
                 line = reader.nextLine()
 
-            curIntent = get_intent(line)
+            curIntent = pparamrs.get_intent(line)
 
             if curIntent <= intent:
                 break

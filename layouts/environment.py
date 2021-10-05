@@ -1,5 +1,5 @@
 from dash import html
-from data.environment import *
+from data.environment import Environment
 
 
 

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from data.asset_type import *
+from data.asset_type import AssetType
 
 
 

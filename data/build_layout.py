@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
-from data.environment import *
-from data.summary import *
+from data.environment import Environment
+from data.summary import Summary
 
 
 

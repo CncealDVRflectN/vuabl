@@ -1,4 +1,3 @@
-from data.data_from_other_asset import DataFromOtherAsset
 from enum import Enum
 
 

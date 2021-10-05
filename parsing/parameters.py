@@ -1,8 +1,7 @@
-from parsing.asset_type import get_asset_type
-from data.asset import *
-from data.asset_type import *
+from data.asset import Asset
 from re import Match
 import utils.conversion as conversion
+import parsing.asset_type as pasttp
 import re
 
 
@@ -50,7 +49,7 @@ def get_strings_list_param(line: str, paramName: str) -> list:
 
 def get_assets_list_param(line: str, paramName: str) -> list:
     paths: list[str] = get_strings_list_param(line, paramName)
-    return [Asset(path=path, assetType=get_asset_type(path)) for path in paths]
+    return [Asset(path=path, assetType=pasttp.get_asset_type(path)) for path in paths]
 
 
 
