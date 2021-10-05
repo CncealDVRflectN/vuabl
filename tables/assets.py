@@ -20,5 +20,13 @@ def create_duplicates_table(data: DataFrame) -> DataTable:
         page_size=25, 
         style_table={ "overflowX": "auto" }, 
         style_header=headerStyle, 
-        style_cell=cellStyle
+        style_cell=cellStyle, 
+        style_data_conditional=[                
+            {
+                "if": {"state": "selected"},
+                "backgroundColor": "inherit !important",
+                "border": "inherit !important"
+            }
+        ],
+        cell_selectable=False
     )

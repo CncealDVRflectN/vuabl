@@ -95,3 +95,9 @@ body {
 tr:hover {
   background-color: inherit !important;
 }
+
+
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner td .dash-cell-value.unfocused::selection {
+  background-color: highlight !important;
+  color: highlighttext !important;
+}
