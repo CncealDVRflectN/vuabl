@@ -17,7 +17,7 @@ body {
 }
 
 .collapse-item + .collapse-item {
-  margin-top: 5px;
+  margin-top: 0.5rem;
 }
 
 
@@ -25,7 +25,7 @@ body {
   width: 100%;
   text-align: left;
   vertical-align: middle;
-  padding: 0.75rem;
+  padding: 0.5rem 0.75rem;
   font-family: monospace;
   font-weight: bold;
   font-size: 1.5rem;
@@ -35,16 +35,19 @@ body {
   transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
 }
 
-.collapse-button::after {
+.collapse-button::before {
   content: "+";
   height: fit-content;
-  float: right;
-  transform: scale(1.5);
-  transition: transform 0.2s ease-in-out;
+  float: left;
+  margin-right: 0.75rem;
+  -webkit-text-stroke: 0.25px #8fd98f;
+  transform: scale(1.5) translate(0rem, -0.1rem);
+  transition: transform 0.2s ease-in-out, -webkit-text-stroke 0.2s ease-in-out;
 }
 
-.collapse-button:not(.collapsed)::after {
-  transform: rotate(45deg) scale(1.5);
+.collapse-button:not(.collapsed)::before {
+  transform: rotate(45deg) scale(1.5) translate(0rem, -0.1rem);
+  -webkit-text-stroke: 0.25px #d9968f;
 }
 
 @media (prefers-reduced-motion: reduce) {
