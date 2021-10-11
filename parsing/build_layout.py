@@ -43,6 +43,7 @@ def parse_build_layout(reader: LayoutReader) -> BuildLayout:
 def read_build_layout(path: str) -> BuildLayout:
     reader: LayoutReader = LayoutReader(path)
     layout: BuildLayout = parse_build_layout(reader)
+    layout.environment.layoutPath = path
 
     reader.close()
     return layout

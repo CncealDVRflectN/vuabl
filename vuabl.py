@@ -16,7 +16,8 @@ argumentsValues: Namespace = argumentsParser.parse_args()
 
 theming.theme = argumentsValues.theme
 
-buildLayout: BuildLayout = pblt.read_build_layout(os.path.abspath(argumentsValues.path))
+fullPath: str = os.path.abspath(argumentsValues.path)
+buildLayout: BuildLayout = pblt.read_build_layout(fullPath)
 
 app: Dash = Dash(__name__)
 app.title = f"Visualizer for Unity Addressables build layout"
