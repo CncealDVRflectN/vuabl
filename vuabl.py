@@ -19,6 +19,7 @@ theming.theme = argumentsValues.theme
 buildLayout: BuildLayout = pblt.read_build_layout(os.path.abspath(argumentsValues.path))
 
 app: Dash = Dash(__name__)
+app.title = f"Visualizer for Unity Addressables build layout"
 
 app.layout = html.Div(children=[
     html.Link(rel="stylesheet", href=theming.get_stylesheet_path()), 
