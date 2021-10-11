@@ -26,8 +26,8 @@ def apply_figure_light_theme(figure: FigureWidget):
 
 
 def apply_figure_theme(figure: FigureWidget):
-    if theme == "dark":
-        apply_figure_dark_theme(figure)
+    if theme == "light":
+        apply_figure_light_theme(figure)
     else:
         apply_figure_dark_theme(figure)
 
@@ -50,10 +50,10 @@ def get_data_table_header_light_theme() -> dict:
 
 
 def get_data_table_header_theme() -> dict:
-    if theme == "dark":
-        return get_data_table_header_dark_theme()
-    else:
+    if theme == "light":
         return get_data_table_header_light_theme()
+    else:
+        return get_data_table_header_dark_theme()
 
 
 
@@ -76,10 +76,10 @@ def get_data_table_cell_light_theme() -> dict:
 
 
 def get_data_table_cell_theme() -> dict:
-    if theme == "dark":
-        return get_data_table_cell_dark_theme()
-    else:
+    if theme == "light":
         return get_data_table_cell_light_theme()
+    else:
+        return get_data_table_cell_dark_theme()
 
 
 
