@@ -35,4 +35,4 @@ ltgr.generate_groups_callbacks(app, buildLayout.groups)
 ltasts.generate_assets_callbacks(app)
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=argumentsValues.d)
