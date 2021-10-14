@@ -1,7 +1,7 @@
 from plotly.missing_ipywidgets import FigureWidget
-from data.size_plot_data import SizePlotData
+from vuabl.data.size_plot_data import SizePlotData
 import plotly.graph_objects as go
-import utils.theming as theming
+import vuabl.utils.theming as theming
 
 
 

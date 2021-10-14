@@ -1,6 +1,6 @@
 from dash.dash_table import DataTable
 from pandas import DataFrame
-import utils.theming as theming
+import vuabl.utils.theming as theming
 
 
 

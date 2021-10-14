@@ -1,9 +1,9 @@
-from data.asset_data import AssetData
-from data.build_layout import BuildLayout
-from utils.layout_reader import LayoutReader
-import parsing.parameters as pparams
-import parsing.summary as psummary
-import parsing.group as pgroup
+from vuabl.data.asset_data import AssetData
+from vuabl.data.build_layout import BuildLayout
+from vuabl.utils.layout_reader import LayoutReader
+import vuabl.parsing.parameters as pparams
+import vuabl.parsing.summary as psummary
+import vuabl.parsing.group as pgroup
 
 
 

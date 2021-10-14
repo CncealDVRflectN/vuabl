@@ -1,7 +1,7 @@
 from dash.dash_table import DataTable
 from pandas import DataFrame
-import utils.conversion as conversion
-import utils.theming as theming
+import vuabl.utils.conversion as conversion
+import vuabl.utils.theming as theming
 
 
 def create_group_assets_by_size_table(groupName, data: DataFrame) -> DataTable:

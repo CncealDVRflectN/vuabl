@@ -2,8 +2,8 @@ from dash import Dash, Output, Input, State, html
 from dash.dash_table import DataTable
 from pandas import DataFrame
 import dash_bootstrap_components as dbc
-import data.table_data as dttbl
-import tables.assets as tblasts
+import vuabl.data.table_data as dttbl
+import vuabl.tables.assets as tblasts
 
 
 

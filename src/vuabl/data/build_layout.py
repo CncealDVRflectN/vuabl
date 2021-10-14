@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
-from data.environment import Environment
-from data.summary import Summary
+from vuabl.data.environment import Environment
+from vuabl.data.summary import Summary
 
 
 

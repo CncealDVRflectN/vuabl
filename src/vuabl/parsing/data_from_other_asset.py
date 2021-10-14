@@ -1,7 +1,7 @@
-from data.data_from_other_asset import DataFromOtherAsset
-from utils.layout_reader import LayoutReader
-import parsing.parameters as pparamrs
-import parsing.asset_type as pasttp
+from vuabl.data.data_from_other_asset import DataFromOtherAsset
+from vuabl.utils.layout_reader import LayoutReader
+import vuabl.parsing.parameters as pparamrs
+import vuabl.parsing.asset_type as pasttp
 import re
 
 

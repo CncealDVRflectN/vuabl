@@ -1,7 +1,7 @@
 from pandas import DataFrame
-from data.group import Group
-from data.asset_data import AssetData
-import utils.conversion as conversion
+from vuabl.data.group import Group
+from vuabl.data.asset_data import AssetData
+import vuabl.utils.conversion as conversion
 
 
 

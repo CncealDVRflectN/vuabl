@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from data.asset import Asset
+from vuabl.data.asset import Asset
 
 
 @dataclass

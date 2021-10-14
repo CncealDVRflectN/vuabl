@@ -1,8 +1,8 @@
-from data.group_archive import GroupArchive
-from utils.layout_reader import LayoutReader
-import parsing.parameters as pparams
-import parsing.file as pfl
-import parsing.explicit_asset as pexplast
+from vuabl.data.group_archive import GroupArchive
+from vuabl.utils.layout_reader import LayoutReader
+import vuabl.parsing.parameters as pparams
+import vuabl.parsing.file as pfl
+import vuabl.parsing.explicit_asset as pexplast
 import re
 
 
