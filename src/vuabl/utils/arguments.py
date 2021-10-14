@@ -2,7 +2,10 @@ from argparse import ArgumentParser
 
 
 def get_parser() -> ArgumentParser:
-    parser: ArgumentParser = ArgumentParser()
+    parser: ArgumentParser = ArgumentParser(
+        prog="vuabl", 
+        description="Visualizer for Unity Addressables build layout")
+
     parser.add_argument("path", type=str, help="Addressables build layout file path")
     parser.add_argument("-d", action="store_true", help="enable debug functionality")
     parser.add_argument("--address", type=str, default="127.0.0.1", help="App address")
