@@ -1,6 +1,6 @@
-from data.summary import Summary
-from utils.layout_reader import LayoutReader
-import parsing.parameters as pparams
+from vuabl.data.summary import Summary
+from vuabl.utils.layout_reader import LayoutReader
+import vuabl.parsing.parameters as pparams
 import re
 
 

@@ -1,7 +1,7 @@
-from data.asset import Asset
+from vuabl.data.asset import Asset
 from re import Match
-import utils.conversion as conversion
-import parsing.asset_type as pasttp
+import vuabl.utils.conversion as conversion
+import vuabl.parsing.asset_type as pasttp
 import re
 
 

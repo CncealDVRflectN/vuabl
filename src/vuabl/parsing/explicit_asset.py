@@ -1,7 +1,7 @@
-from data.explicit_asset import ExplicitAsset
-from utils.layout_reader import LayoutReader
-import parsing.parameters as pparams
-import parsing.asset_type as pasttp
+from vuabl.data.explicit_asset import ExplicitAsset
+from vuabl.utils.layout_reader import LayoutReader
+import vuabl.parsing.parameters as pparams
+import vuabl.parsing.asset_type as pasttp
 import re
 
 

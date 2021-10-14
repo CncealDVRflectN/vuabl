@@ -1,11 +1,11 @@
 from typing import Tuple
-from data.group import Group
 from dataclasses import dataclass
 from pandas import DataFrame
-from data.asset_type import AssetType
-from data.build_layout import BuildLayout
-import parsing.asset_type as passet_type
-import utils.conversion as conversion
+from vuabl.data.asset_type import AssetType
+from vuabl.data.group import Group
+from vuabl.data.build_layout import BuildLayout
+import vuabl.parsing.asset_type as passet_type
+import vuabl.utils.conversion as conversion
 
 
 

@@ -1,12 +1,12 @@
 from dash import Dash, Output, Input, State, dcc, html
 from dash.dependencies import Output, Input, State
 from plotly.missing_ipywidgets import FigureWidget
-from data.build_layout import BuildLayout
-from data.size_plot_data import SizePlotData
+from vuabl.data.build_layout import BuildLayout
+from vuabl.data.size_plot_data import SizePlotData
 import dash_bootstrap_components as dbc
-import data.size_plot_data as dtspd
-import plots.categories as pltcat
-import utils.conversion as conversion
+import vuabl.data.size_plot_data as dtspd
+import vuabl.plots.categories as pltcat
+import vuabl.utils.conversion as conversion
 
 
 

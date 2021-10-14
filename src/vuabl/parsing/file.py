@@ -1,7 +1,7 @@
-from data.file import File
-from utils.layout_reader import LayoutReader
-import parsing.parameters as pparams
-import parsing.data_from_other_asset as pdtothast
+from vuabl.data.file import File
+from vuabl.utils.layout_reader import LayoutReader
+import vuabl.parsing.parameters as pparams
+import vuabl.parsing.data_from_other_asset as pdtothast
 import re
 
 

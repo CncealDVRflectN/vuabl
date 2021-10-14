@@ -3,15 +3,15 @@ from dash.dash_table import DataTable
 from dash.dependencies import Output, Input, State
 from pandas import DataFrame
 from plotly.missing_ipywidgets import FigureWidget
-from data.group import Group
-from data.size_plot_data import SizePlotData
+from vuabl.data.group import Group
+from vuabl.data.size_plot_data import SizePlotData
 import dash_bootstrap_components as dbc
-import data.size_plot_data as dtspd
-import data.table_data as dttbl
-import plots.categories as pltcat
-import plots.groups as pltgr
-import tables.group as tblgr
-import utils.conversion as conversion
+import vuabl.data.size_plot_data as dtspd
+import vuabl.data.table_data as dttbl
+import vuabl.plots.categories as pltcat
+import vuabl.plots.groups as pltgr
+import vuabl.tables.group as tblgr
+import vuabl.utils.conversion as conversion
 
 
 

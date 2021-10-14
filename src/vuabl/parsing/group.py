@@ -1,7 +1,7 @@
-from data.group import Group
-from utils.layout_reader import LayoutReader
-import parsing.parameters as pparams
-import parsing.group_archive as pgrarch
+from vuabl.data.group import Group
+from vuabl.utils.layout_reader import LayoutReader
+import vuabl.parsing.parameters as pparams
+import vuabl.parsing.group_archive as pgrarch
 import re
 
 
