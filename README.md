@@ -32,7 +32,8 @@ Simply run:
 vuabl your_buildlayout.txt
 ```
 
-Then open the app address in your browser (by default it is [127.0.0.1:8050](http://127.0.0.1:8050/))
+If the app doesn't open automatically in the browser, open the app's address 
+in your browser manually (by default it is [127.0.0.1:8050](http://127.0.0.1:8050/))
 
 Example:
 

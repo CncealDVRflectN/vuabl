@@ -9,6 +9,7 @@ import vuabl.layouts.assets as ltasts
 import vuabl.utils.arguments as arguments
 import vuabl.utils.theming as theming
 import os
+import webbrowser
 
 
 def run():
@@ -35,4 +36,7 @@ def run():
     ltgr.generate_groups_callbacks(app, buildLayout.groups)
     ltasts.generate_assets_callbacks(app)
 
-    app.run_server(debug=argumentsValues.d, host=argumentsValues.address, port=argumentsValues.port)
+    if not argumentsValues.silent:
+        webbrowser.open(f"http://{argumentsValues.address}:{argumentsValues.port}/")
+    
+    app.run_server(debug=argumentsValues.debug, host=argumentsValues.address, port=argumentsValues.port)
