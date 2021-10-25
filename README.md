@@ -6,6 +6,10 @@
 - Python 3.6 or higher
 - pip
 
+Additional requirements on Windows platform:
+- Windows SDK (required by numpy)
+- MSVC C++ Build tools (required by numpy)
+
 ## Installation
 
 On Windows:
