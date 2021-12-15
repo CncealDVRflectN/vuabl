@@ -9,4 +9,4 @@ class BuildLayout:
     environment: Environment = Environment()
     summary: Summary = Summary()
     groups: list = field(default_factory=list)
-    assetsData: dict = field(default_factory=dict)
+    assetsData: dict = field(default_factory=dict)  # path -> AssetData
