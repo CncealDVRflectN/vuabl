@@ -6,17 +6,18 @@ import vuabl.utils.conversion as conversion
 
 
 def get_group_assets_table_by_size(group: Group, assetsData: dict) -> DataFrame:
-    assetsData: list[AssetData] = list(assetsData.values())
+    assets: list[AssetData] = list(assetsData.values())
+    assets = list(filter(lambda entry: group.name in entry.referencedByGroups, assets))
 
-    assetsData.sort(key=lambda entry:entry.size, reverse=True)
+    assets.sort(key=lambda entry:entry.size, reverse=True)
 
-    paths: list[str] = [assetData.asset.path for assetData in assetsData]
-    types: list[str] = [assetData.asset.assetType.name for assetData in assetsData]
-    sizes: list[str] = [conversion.bytes_to_readable_size(assetData.size) for assetData in assetsData]
+    paths: list[str] = [assetData.asset.path for assetData in assets]
+    types: list[str] = [assetData.asset.assetType.name for assetData in assets]
+    sizes: list[str] = [conversion.bytes_to_readable_size(assetData.size) for assetData in assets]
 
     references: list[str] = []
 
-    for assetData in assetsData:
+    for assetData in assets:
         referencedBy: list[str] = [referenceAsset.path for referenceAsset in assetData.referencedByAssets]
         referencedBy.sort()
 
