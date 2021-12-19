@@ -14,6 +14,7 @@ def create_group_assets_by_size_table(groupName, data: DataFrame) -> DataTable:
         id=f"group-{groupID}-assets-table", 
         data=data.to_dict("records"), 
         columns=[
+            {"id": "number", "name": "№"}, 
             {"id": "path", "name": "Path"},  
             {"id": "type", "name": "Type"}, 
             {"id": "size", "name": "Size"}, 
