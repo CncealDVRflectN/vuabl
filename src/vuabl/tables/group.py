@@ -31,5 +31,6 @@ def create_group_assets_by_size_table(groupName, data: DataFrame) -> DataTable:
                 "border": "inherit !important",
             }
         ],
-        cell_selectable=False
+        editable=False, 
+        cell_selectable=True
     )
