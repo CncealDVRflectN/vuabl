@@ -1,7 +1,7 @@
 
 class LayoutReader:
     def __init__(self, path: str):
-        self._reader = open(path, "r")
+        self._reader = open(path, encoding="utf-8", mode="r")
         self._cachedLine = ""
 
     
