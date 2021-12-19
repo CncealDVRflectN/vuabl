@@ -1,7 +1,9 @@
 from pandas import DataFrame
 from vuabl.data.group import Group
 from vuabl.data.asset_data import AssetData
+import vuabl.data.asset_data as asset_data
 import vuabl.utils.conversion as conversion
+import functools
 
 
 
@@ -9,7 +11,7 @@ def get_group_assets_table_by_size(group: Group, assetsData: dict) -> DataFrame:
     assets: list[AssetData] = list(assetsData.values())
     assets = list(filter(lambda entry: group.name in entry.referencedByGroups, assets))
 
-    assets.sort(key=lambda entry:entry.size, reverse=True)
+    assets.sort(key=functools.cmp_to_key(asset_data.compare))
 
     paths: list[str] = [assetData.asset.path for assetData in assets]
     types: list[str] = [assetData.asset.assetType.name for assetData in assets]

@@ -9,3 +9,20 @@ class AssetData:
     referencedByAssets: set = field(default_factory=set)
     referencedByGroups: set = field(default_factory=set)
     referencedByArchives: set = field(default_factory=set)
+
+
+
+def compare(a: AssetData, b: AssetData) -> int:
+    aPathLower: str = a.asset.path.lower()
+    bPathLower: str = b.asset.path.lower()
+
+    if a.size < b.size:
+        return 1
+    elif a.size > b.size:
+        return -1
+    elif aPathLower < bPathLower:
+        return -1
+    elif a.asset.path > bPathLower:
+        return 1
+
+    return 0
