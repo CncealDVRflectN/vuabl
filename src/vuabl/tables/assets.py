@@ -29,5 +29,6 @@ def create_duplicates_table(data: DataFrame) -> DataTable:
                 "border": "inherit !important"
             }
         ],
-        cell_selectable=False
+        editable=False, 
+        cell_selectable=True
     )
