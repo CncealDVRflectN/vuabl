@@ -44,7 +44,7 @@ def get_duplicates_table(assetsData: dict) -> DataFrame:
         if len(data.referencedByArchives) > 1:
             duplicates.append(data)
 
-    duplicates.sort(key=lambda assetData: assetData.size * len(assetData.referencedByArchives), reverse=True)
+    duplicates.sort(key=functools.cmp_to_key(asset_data.compare_with_duplicates))
 
     paths: list[str] = [assetData.asset.path for assetData in duplicates]
     sizes: list[str] = []
