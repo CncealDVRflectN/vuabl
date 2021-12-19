@@ -12,6 +12,7 @@ def create_duplicates_table(data: DataFrame) -> DataTable:
         id="duplicates-table", 
         data=data.to_dict("records"), 
         columns=[
+            {"id": "number", "name": "№"}, 
             {"id": "path", "name": "Path"},  
             {"id": "size", "name": "Size"}, 
             {"id": "groups", "name": "Referenced By Groups"}, 

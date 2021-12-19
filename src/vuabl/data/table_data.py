@@ -1,3 +1,4 @@
+from numpy import number
 from pandas import DataFrame
 from vuabl.data.group import Group
 from vuabl.data.asset_data import AssetData
@@ -33,7 +34,12 @@ def get_group_assets_table_by_size(group: Group, assetsData: dict) -> DataFrame:
 
         references.append(referencesStr)
 
-    return DataFrame(dict(path=paths, type=types, size=sizes, references=references))
+    return DataFrame(dict(
+        number=[i + 1 for i in range(len(paths))], 
+        path=paths, 
+        type=types, 
+        size=sizes, 
+        references=references))
 
 
 
@@ -83,4 +89,9 @@ def get_duplicates_table(assetsData: dict) -> DataFrame:
 
         references.append(referencesStr)
 
-    return DataFrame(dict(path=paths, size=sizes, groups=groups, references=references))
+    return DataFrame(dict(
+        number=[i + 1 for i in range(len(paths))], 
+        path=paths, 
+        size=sizes, 
+        groups=groups, 
+        references=references))
