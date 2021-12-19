@@ -13,6 +13,7 @@ import os
 import webbrowser
 
 
+
 def run():
     argumentsParser: ArgumentParser = arguments.get_parser()
     argumentsValues: Namespace = argumentsParser.parse_args()
