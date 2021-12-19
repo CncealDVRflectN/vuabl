@@ -36,6 +36,7 @@ def parse_build_layout(reader: LayoutReader) -> BuildLayout:
         pass
 
     layout.assetsData = build_assets_data(layout)
+    layout.groups.sort(key=lambda entry:entry.name)
 
     return layout
 
